@@ -1,0 +1,5 @@
+class Bookinfo < Genre
+
+    
+end
+
