@@ -1,10 +1,10 @@
 class CLI
     def run
-        
-        system('clear')
         greeting
         while menu != 'exit'
         end
+        Scraper.scrape_information
+        system('clear')      
         end_program
     end
 
@@ -20,7 +20,7 @@ class CLI
         #list of options
         list_options
         #get user input
-        puts "Pick book genre"
+        puts "Pick a book genre"
         input = gets.chomp
         choose_option(input)
 
@@ -29,14 +29,14 @@ class CLI
     end
 
     def list_options
-        puts "1. "
-        puts "2. "
+        Scraper.scrape_genres
     end
 
     def choose_option(input)
         case input 
         when "1"
             puts "Number 1 chosen"
+            puts Bookinfo.all[0].book_title
         when "2"
             puts "Number 2 chosen"
         end
