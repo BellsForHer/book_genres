@@ -36,9 +36,10 @@ class CLI
         case input 
         when "1"
             puts "Number 1 chosen"
-            puts Bookinfo.all[0].book_title
+            puts Scraper.scrape_books_urls[0]
         when "2"
             puts "Number 2 chosen"
+            puts Scraper.scrape_books_urls[1]
         end
     end
 end
