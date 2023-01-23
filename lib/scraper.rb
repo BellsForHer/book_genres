@@ -7,33 +7,28 @@ require_relative "book_info.rb"
 class Scraper
     SCRAPE_URL = "http://books.toscrape.com/index.html"
 
+
+    #genre.rb
     def self.scrape_genres
+        puts "Scraping book genres"
         doc = Nokogiri::HTML(URI.open("http://books.toscrape.com/index.html"))
 
-        category_genres = doc.css(".side_categories .nav-list ul li a")
+        category_genres = doc.css(".side_categories .nav-list ul li a")[0..9]
         
 
         #iterate through genre categories
 
         category_genres.each_with_index do |category_genre, i|
             puts "#{i + 1} #{category_genre.text.gsub(/[\s,]/, "")}"
+            Genre.new(category_genre)
         end
 
-        # #iterate through genre urls
-
-
-        # category_genres.each do |category_genre|
-        #     g_url = category_genre.attribute('href').value
-        #     genre_urls << g_url
-        # end
-
-        Genre.new(category_genres)
-
-        
+        # binding.pry
     end
 
+    #book_info.rb
     def self.scrape_books_urls
-        puts "Scraping Genre Book titles"
+        puts "Scraping book titles by genre"
         doc = Nokogiri::HTML(URI.open("http://books.toscrape.com/index.html"))
 
         genre_urls = []
@@ -55,28 +50,34 @@ class Scraper
             doc = Nokogiri::HTML(URI.open("http://books.toscrape.com/#{genre_url}"))
 
             book_genre_titles << doc.css("section ol li h3 a")
-
             
             
         end
 
-        
-        
-    end
-
-    def self.scrape_titles(book_genre_titles)
         book_genre_titles.each do |book_genre_title|
             title = book_genre_title.text
-
             Bookinfo.new(title)
 
-            binding.pry
         end
+        # binding.pry
+
     end
 
-    binding.pry
+    def self.scrape_information
+        scrape_genres
+        scrape_books_urls
+    end
+
+    
+    # binding.pry
 
 
 end
 
+#terminal
+#Scraper.scrape_books_urls
+#Bookinfo.all[#]
+
+#Scraper.scrape_genres
+#Genre.all[0]
 
